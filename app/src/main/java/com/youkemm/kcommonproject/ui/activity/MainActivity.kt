@@ -45,6 +45,7 @@ class MainActivity : BaseActivity<ApiService, CacheService, MainPresenter, Any?>
 
     override fun initView() {
         super.initView()
+
         setupSlidingView()
         setupViewPager()
         rl_right.setOnClickListener {
