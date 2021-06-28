@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.youkemm.kcommonproject">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+    <application
+        xmlns:tools="http://schemas.android.com/tools"
+        android:name="com.youkemm.kcommonproject.app.App"
+        android:icon="@mipmap/avatar"
+        android:label="${APPLICATION_NAME}"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
+        <activity
+            android:name="com.youkemm.kcommonproject.ui.activity.MainActivity"
+            android:theme="@style/StartPageTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.youkemm.kcommonproject.ui.activity.WebActivity"
+            android:process=":web">
+        </activity>
+    </application>
+
+</manifest>

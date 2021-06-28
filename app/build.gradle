@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 30
+    defaultConfig {
+        applicationId "com.youkemm.kcommonproject"
+        minSdkVersion 26
+        targetSdkVersion 30
+        multiDexEnabled true
+        versionCode 1
+        versionName "1.0"
+    }
+    aaptOptions {
+        cruncherEnabled false
+    }
+    lintOptions {
+        abortOnError false
+    }
+    signingConfigs {
+        release {
+            storeFile file('key.jks')
+            storePassword "123456"
+            keyAlias "kcommon"
+            keyPassword "123456"
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "APP_URL", "\"http://gank.io/\""
+            buildConfigField "String", "EXTRA_URL", "\"api/\""
+            minifyEnabled false
+            def appName = "QuickMvpFrame"
+            applicationIdSuffix ".debug"
+            manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
+        }
+        release {
+            buildConfigField "String", "APP_URL", "\"http://gank.io/\""
+            buildConfigField "String", "EXTRA_URL", "\"api/\""
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            def appName = "QuickMvpFrame"
+            manifestPlaceholders = [APPLICATION_NAME: "${appName}"]
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:multidex:1.0.3'
+    }
+}
+
+dependencies {
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api 'com.yarolegovich:sliding-root-nav:1.1.0'
+    api 'com.jakewharton:disklrucache:2.0.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    api 'com.github.markzhai:blockcanary-android:1.5.0'
+
+    api project(':kcommon')
+//    implementation 'com.blackflagbin:kcommonlibrary:1.0.1'
+}
