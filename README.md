@@ -1,3 +1,6 @@
+### QuickMvpFrame kotlin快速发开MVP框架 基于 KCommon 开发
+由于[KCommon](https://github.com/BlackFlagBin/KCommonProject) 很久没更新了，我便基于它上面进行改进和升级
+支持androidx,和升级一些无法使用的库，同时也升级了MVP自动生成的插件
 ## KCommon-使用Kotlin编写，基于MVP的极速开发框架
 我们在开发Android应用程序的时候其实会有很多通用的代码，比方说很常见的页面的几种基本状态的切换：正常、加载失败、加载中、空页面。又或者是下拉刷新和如果数据需要分页而带来的上拉加载更多数据等等操作。当然，这其中最繁琐的还是关于MVP相关模板代码的编写，熟悉Android中MVP架构的小伙伴们应该都知道，严格按照MVP架构的话，我们每一个Activity或者Fragment都需要多写一个接口和两个实现类：MVPContract、MVPModel和MVPPresenter。而这些Contract、Model和Presenter又不近相似，所以在我之前的开发中，如果一个新的APP有30个页面，那么加上这些MVP架构所需的代码，我需要多添加90个文件，即使是复制粘贴这些代码当时也耗费了我将近2个多小时的时间(当然不仅仅是复制，还包括文件名，方法名称的修改等等所需的细节)。当然，这也是促使我开源出KCommon这个使用Kotlin编写的，基于MVP架构的极速开发框架的主要原因。
 
@@ -9,7 +12,7 @@
 * 提供了自动生成MVP相关文件的模板代码，实现了真正一键创建MVP的所有代码
 
 #### 集成方法
-* api 'com.blackflagbin:kcommonlibrary:1.0.1'
+
 * 在根目录的gradle文件中添加：
 ```
 allprojects {
@@ -36,10 +39,10 @@ CommonLibrary.instance.initLibrary(this,
                 }),
                 isDebug = BuildConfig.DEBUG)
 ```
-* 将[KCommonTemplate模板文件](https://github.com/BlackFlagBin/KCommonTemplate)放到指定位置
+* 将[Fast-Generate-MVP-Template模板文件](https://github.com/hlgithub369/Fast-Generate-MVP-Template)放到指定位置
 
 #### 详细功能使用说明
-如果只是针对不同的模块进行介绍的话，可能不是那么容易理解，这里我结合一个Kotlin编写的[Demo](https://github.com/BlackFlagBin/KCommonProject)，来一步一步详细演示如何使用这个极速开发框架。
+如果只是针对不同的模块进行介绍的话，可能不是那么容易理解，这里我结合一个Kotlin编写的[Demo](https://github.com/hlgithub369/Fast-Generate-MVP-Template)，来一步一步详细演示如何使用这个极速开发框架。
 #### 明确需求
 首先我们这个APP的需求很明确，要有统一的网络错误处理、页面的不同状态切换、下拉刷新和上拉加载更多、处理网络请求时的Loading效果、在无网络时加载缓存数据，和使用MVP架构来编写代码。在这里我使用Kotlin编写整个APP的代码，对Kotlin不熟悉的同学也不用害怕，Java和Kotlin的写法基本是一致的，并且我的MVP模板文件也提供了Kotlin和Java两个版本的选项。
 
@@ -47,62 +50,8 @@ CommonLibrary.instance.initLibrary(this,
 这两步在集成方法中已经介绍过了。
 
 
-#### 配置MultiDexEnable
-由于KCommon为了方便开发依赖了很多开发中常用的第三方库，完整的依赖如下所示：
-```
-dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'com.android.support:appcompat-v7:27.1.1'
-    api 'com.android.support:recyclerview-v7:27.1.1'
-    api 'org.jetbrains.anko:anko:0.10.3'
-    api 'androidx.core:core-ktx:0.3'
-    api 'com.android.support:multidex:1.0.3'
-    api 'com.squareup.okhttp3:okhttp:3.10.0'
-    api 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    api 'com.squareup.retrofit2:retrofit:2.4.0'
-    api 'com.squareup.retrofit2:converter-gson:2.4.0'
-    api 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
-    api 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    api 'com.github.VictorAlbertos.RxCache:runtime:1.8.3-2.x'
-    api 'io.reactivex.rxjava2:rxjava:2.1.7'
-    api 'com.github.VictorAlbertos.Jolyglot:gson:0.0.4'
-    api 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
-    api 'org.greenrobot:eventbus:3.0.0'
-    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.35'
-    api 'com.github.Kennyc1012:MultiStateView:1.3.0'
-    api 'com.github.ybq:Android-SpinKit:1.1.0'
-    api 'com.blankj:utilcode:1.17.1'
-    api 'com.github.bumptech.glide:glide:3.8.0'
-    api 'com.github.anzaizai:EasySwipeMenuLayout:1.1.2'
-    api 'com.trello.rxlifecycle2:rxlifecycle:2.2.1'
-    api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.1'
-    api 'com.trello.rxlifecycle2:rxlifecycle-kotlin:2.2.1'
-    api 'com.trello.rxlifecycle2:rxlifecycle-android-lifecycle-kotlin:2.2.1'
-    api 'org.jetbrains.kotlin:kotlin-stdlib:1.2.51'
-    api 'com.android.support:cardview-v7:27.1.1'
-    api 'com.hx.multi-image-selector:multi-image-selector:1.2.1'
-    api 'com.android.support:design:27.1.1'
-}
-```
-所以方法数基本上是要超过65535的，因此需要配置MultiDex：
-```
-android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
-    defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-        //在这里配置multiDex
-        multiDexEnabled true
-    }
-}
-```
-
 #### 创建项目的目录结构
-由于开发中需要配合KCommonTemplate一键生成相关MVP代码使用，所以对整个项目的目录结构有着要求(如果项目目录不正确的话，一键生成的模板代码文件的位置会错位)。
+由于开发中需要配合Fast-Generate-MVP-Template一键生成相关MVP代码使用，所以对整个项目的目录结构有着要求(如果项目目录不正确的话，一键生成的模板代码文件的位置会错位)。
 
 首先在项目的主包名下创建4个平级的package：**app** 、**common** 、**mvp** 、**ui** 。
 
@@ -858,7 +807,6 @@ override val adapter: BaseQuickAdapter<*, *>?
 
 最后要说的是我会长期维护和改进 **KCommon** ，如果大家在使用的过程中存在疑惑，可以在 **GitHub** 上提出 **issue** ，我会一一解答。感谢大家花时间看这么一篇文章，如果我的努力解决了大家实际开发中的问题，提高了大家的效率，希望可以顺手给个 **star** ，谢谢。
 
-[GitHub地址](https://github.com/BlackFlagBin/KCommonProject)
 
 
 
